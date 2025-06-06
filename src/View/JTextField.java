@@ -1,11 +1,15 @@
 package View;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Shape;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.RoundRectangle2D;
+
 import javax.swing.BorderFactory;
 
+@SuppressWarnings("serial")
 public class JTextField extends javax.swing.JTextField {
 
     private Shape shape;
@@ -14,13 +18,11 @@ public class JTextField extends javax.swing.JTextField {
     public JTextField(String hint) {
         super();
         this.hint = hint;
-        setFont(new Font("Segou UI", Font.BOLD, 18));
+        setFont(new Font("Segoe UI", Font.BOLD, 20));
         setOpaque(false);
         setText(hint);
         setForeground(GUIConstants.textFieldHint);
         setBorder(BorderFactory.createEmptyBorder(TOP, 20, BOTTOM, 20));
-        setPreferredSize(new Dimension(0, 40));
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
 
         addFocusListener(new FocusListener() {
 
@@ -42,26 +44,28 @@ public class JTextField extends javax.swing.JTextField {
         });
     }
 
+    //for rounded corners
     protected void paintComponent(Graphics g) {
         g.setColor(GUIConstants.white);
-        g.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 25, 25);
+        g.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 45, 45);
         super.paintComponent(g);
     }
 
+    //for rounded border
     protected void paintBorder(Graphics g) {
         g.setColor(GUIConstants.white);
-        g.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 25, 25);
+        g.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 45, 45);
     }
 
     public boolean contains(int x, int y) {
-        if(shape == null || shape.getBounds().equals(getBounds())) {
-            shape = new RoundRectangle2D.Float(0, 0, getWidth()-1, getHeight()-1, 40, 40);
+        if (shape == null || !shape.getBounds().equals(getBounds())) {
+            shape = new RoundRectangle2D.Float(0, 0, getWidth()-1, getHeight()-1, 45, 45);
         }
-        return shape.contains(x,y);
+        return shape.contains(x, y);
     }
 
     public boolean isEmpty() {
-
-        return getText().equals(hint) || getText().equals(" ");
+        return getText().equals(hint) || getText().equals("");
     }
+
 }

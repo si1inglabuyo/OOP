@@ -1,21 +1,28 @@
 package Model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.time.format.DateTimeFormatter;
 
 public class Post {
+
     private int ID;
     private String content;
     private User user;
     private LocalDateTime dateTime;
-    private ArrayList<Comment> comments;
-    private ArrayList<User> likes;
+
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd  HH:mm:ss");
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy");
 
     public Post() {}
 
+    public Post(String content, User user) {
+        this.content = content;
+        this.user = user;
+        dateTime = LocalDateTime.now();
+    }
+
     public int getID() {
-        return  ID;
+        return ID;
     }
 
     public void setID(int ID) {
@@ -30,14 +37,13 @@ public class Post {
         this.content = content;
     }
 
-    private User getUser() {
+    public User getUser() {
         return user;
     }
 
-    private void setUser(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
-
 
     public LocalDateTime getDateTime() {
         return dateTime;
@@ -47,22 +53,16 @@ public class Post {
         this.dateTime = dateTime;
     }
 
-    public ArrayList<Comment> getComments() {
-        return comments;
+    public String getDateTimeToString() {
+        return dateTimeFormatter.format(dateTime);
     }
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
+    public void setDateTimeFromString(String dateTime) {
+        this.dateTime = LocalDateTime.parse(dateTime, dateTimeFormatter);
     }
 
-    public ArrayList<User> getCLikes() {
-        return likes;
+    public String getDateToString() {
+        return dateFormatter.format(dateTime);
     }
-
-    public void setLikes(ArrayList<User> likes) {
-        this.likes = likes;
-    }
-
-
 
 }

@@ -3,17 +3,19 @@ package Model;
 import java.util.ArrayList;
 
 public class User {
+
     private int ID;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-    private ArrayList<Post> posts;
-    private ArrayList<Comment> comments;
-    private ArrayList<Post> likes;
-    private ArrayList<User> friends;
+    private ArrayList<Integer> likesIDs;
+    private ArrayList<Integer> friendsIDs;
 
-    public User() {}
+    public User() {
+        likesIDs = new ArrayList<>();
+        friendsIDs = new ArrayList<>();
+    }
 
     public int getID() {
         return ID;
@@ -59,43 +61,51 @@ public class User {
         this.password = password;
     }
 
-    public ArrayList<Post> getPosts() {
-        return posts;
+    public ArrayList<Integer> getLikesIDs() {
+        return likesIDs;
     }
 
-    public void setPosts(ArrayList<Post> posts) {
-        this.posts = posts;
+    public void setLikesIDs(ArrayList<Integer> likesIDs) {
+        this.likesIDs = likesIDs;
     }
 
-    public ArrayList<Comment> getComments() {
-        return  comments;
+    public boolean liked(Post p) {
+        return likesIDs.contains(p.getID());
     }
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
+    public void like(Post p) {
+        likesIDs.add(p.getID());
     }
 
-    public ArrayList<Post> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(ArrayList<Post> likes) {
-        this.likes = likes;
-    }
-
-    public ArrayList<User> getFriends() {
-        return friends;
+    public void dislike(Post p) {
+        likesIDs.remove( (Integer) p.getID());
     }
 
     public void setFriends(ArrayList<User> friends) {
-        this.friends = friends;
+        friendsIDs = new ArrayList<>();
+        for (User u : friends) {
+            friendsIDs.add(u.getID());
+        }
+    }
+
+    public void setFriendsIDs(ArrayList<Integer> friendsIDs) {
+        this.friendsIDs = friendsIDs;
     }
 
     public ArrayList<Integer> getFriendsIDs() {
-        ArrayList<Integer> ids = new ArrayList<>();
-            for(User friend : friends) {
-                ids.add(friend.getID());
-            }
-            return ids;
+        return friendsIDs;
     }
+
+    public boolean isFriend(User u) {
+        return friendsIDs.contains(u.getID());
+    }
+
+    public void addFriend(User f) {
+        friendsIDs.add(f.getID());
+    }
+
+    public void removeFriend(User f) {
+        friendsIDs.remove((Integer) f.getID());
+    }
+
 }
