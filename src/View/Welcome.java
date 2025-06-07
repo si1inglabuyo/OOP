@@ -67,6 +67,12 @@ public class Welcome {
                     new Alert("Email cannot be empty", frame);
                     return;
                 }
+
+                if (!email.getText().endsWith("@iskolarngbayan.pup.edu.ph")) {
+                    new Alert("Email must end with @iskolarngbayan.pup.edu.ph", frame);
+                    return;
+                }
+
                 if (password.isEmpty()) {
                     new Alert("Password cannot be empty", frame);
                     return;

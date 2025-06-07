@@ -64,7 +64,8 @@ public class Home {
         sideBar.add(new SideButton("Likes", "mylikes", user, database, frame));
         sideBar.add(Box.createVerticalStrut(3));
         sideBar.add(new SideButton("Friends", "friends", user, database, frame));
-        sideBar.add(Box.createVerticalStrut(3));
+        sideBar.add(Box.createVerticalStrut(10));
+
         frame.getContentPane().add(sideBar, BorderLayout.WEST);
 
         JPanel panel = new JPanel();

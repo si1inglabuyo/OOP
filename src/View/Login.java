@@ -7,8 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import Controller.ReadUser;
 import Model.Database;
@@ -50,10 +49,7 @@ public class Login {
                     new Alert("Email cannot be empty", frame);
                     return;
                 }
-                if (password.isEmpty()) {
-                    new Alert("Password cannot be empty", frame);
-                    return;
-                }
+
                 ReadUser read = new ReadUser(email.getText(), password.getText(), database);
                 if (read.loggedIn()) {
                     User user = read.getUser();
