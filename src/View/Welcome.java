@@ -23,7 +23,7 @@ public class Welcome {
         panel.setBackground(null);
         panel.setBorder(BorderFactory.createEmptyBorder(53, 84, 76, 84));
 
-        JLabel welcomeTitle = new JLabel("Signup to IskOnnect", 40, GUIConstants.pink, Font.BOLD);
+        JLabel welcomeTitle = new JLabel("Signup to IskOnnect", 40, GUIConstants.background, Font.BOLD);
         welcomeTitle.setHorizontalAlignment(JLabel.CENTER);
         welcomeTitle.setVerticalAlignment(JLabel.CENTER);
         panel.add(welcomeTitle, BorderLayout.NORTH);
@@ -112,7 +112,7 @@ public class Welcome {
         panel.add(center, BorderLayout.CENTER);
 
         JLabel login = new JLabel("Already have an account? Login", 20,
-                GUIConstants.black, Font.BOLD);
+                GUIConstants.black, Font.PLAIN);
         login.addMouseListener(new MouseListener() {
             @Override
             public void mouseReleased(MouseEvent e) {}

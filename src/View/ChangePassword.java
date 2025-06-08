@@ -1,8 +1,6 @@
 package View;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -19,9 +17,11 @@ public class ChangePassword {
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(null);
-        panel.setBorder(BorderFactory.createEmptyBorder(83, 99, 175, 99));
-        panel.add(new JLabel("Change Password", 40, GUIConstants.pink, Font.BOLD),
-                BorderLayout.NORTH);
+        panel.setBorder(BorderFactory.createEmptyBorder(83, 99, 50 ,99));
+
+        JLabel title = new JLabel("Change Password", 40, GUIConstants.background, Font.BOLD);
+        title.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(title, BorderLayout.NORTH);
 
         JPanel center = new JPanel(new GridLayout(4, 1, 10, 10));
         center.setBackground(null);
@@ -80,8 +80,32 @@ public class ChangePassword {
             }
         });
         center.add(submit);
-
         panel.add(center, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 20));
+
+        buttonPanel.setBackground(null);
+        JButton backBtn = new JButton("Back Home", 45,20);
+        backBtn.setPreferredSize(new Dimension(170, 42));
+        backBtn.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+            @Override
+            public void mousePressed(MouseEvent e) {}
+            @Override
+            public void mouseExited(MouseEvent e) {}
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Home(user, database);
+                frame.dispose();
+            }
+        });
+
+        buttonPanel.add(backBtn);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 
         frame.getContentPane().add(panel);
         frame.setVisible(true);

@@ -19,21 +19,21 @@ public class JButton extends JLabel {
         this.radius = radius;
         setFont(new Font("Segoe UI", Font.BOLD, textSize));
         setOpaque(false);
-        setForeground(GUIConstants.white);
+        setForeground(GUIConstants.yellow);
         setHorizontalAlignment(CENTER);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     //for rounded corners
     protected void paintComponent(Graphics g) {
-        g.setColor(GUIConstants.pink);
+        g.setColor(GUIConstants.background);
         g.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, radius, radius);
         super.paintComponent(g);
     }
 
     //for rounded border
     protected void paintBorder(Graphics g) {
-        g.setColor(GUIConstants.pink);
+        g.setColor(GUIConstants.background);
         g.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, radius, radius);
     }
 

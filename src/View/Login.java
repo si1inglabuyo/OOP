@@ -22,7 +22,7 @@ public class Login {
         panel.setBackground(null);
         panel.setBorder(BorderFactory.createEmptyBorder(115, 0, 182, 0));
 
-        JLabel title = new JLabel("Login", 40, GUIConstants.pink, Font.BOLD);
+        JLabel title = new JLabel("Login", 40, GUIConstants.background, Font.BOLD);
         title.setHorizontalAlignment(JLabel.CENTER);
         panel.add(title, BorderLayout.NORTH);
 
@@ -65,7 +65,7 @@ public class Login {
         panel.add(center, BorderLayout.CENTER);
 
         JLabel createAcc = new JLabel("Don't have an account? Create new one", 20,
-                GUIConstants.black, Font.BOLD);
+                GUIConstants.black, Font.PLAIN);
         createAcc.addMouseListener(new MouseListener() {
             @Override
             public void mouseReleased(MouseEvent e) {}

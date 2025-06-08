@@ -1,18 +1,11 @@
 package View;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import Controller.CreatePost;
 import Controller.GenerateTimeline;
@@ -26,7 +19,7 @@ public class Home {
         frame.getContentPane().setLayout(new BorderLayout());
 
         JPanel sideBar = new JPanel();
-        sideBar.setBackground(GUIConstants.white);
+        sideBar.setBackground(GUIConstants.background);
         Dimension sideBarDim = new Dimension(182, 1000);
         sideBar.setPreferredSize(sideBarDim);
         sideBar.setMaximumSize(sideBarDim);
@@ -36,9 +29,9 @@ public class Home {
 
         JPanel profile = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         profile.setMaximumSize(new Dimension(182, 50));
-        profile.setBackground(GUIConstants.white);
+        profile.setBackground(GUIConstants.background);
         profile.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        profile.add(new JLabel(user.getName(), 19, GUIConstants.black, Font.BOLD));
+        profile.add(new JLabel(user.getName(), 19, GUIConstants.yellow, Font.BOLD));
         profile.addMouseListener(new MouseListener() {
             @Override
             public void mouseReleased(MouseEvent e) {}
@@ -66,8 +59,48 @@ public class Home {
         sideBar.add(new SideButton("Friends", "friends", user, database, frame));
         sideBar.add(Box.createVerticalStrut(10));
 
-        frame.getContentPane().add(sideBar, BorderLayout.WEST);
+        ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/imgs/logout.png"));
+        Image resizedDefault = defaultIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        ImageIcon resizedDefaultIcon = new ImageIcon(resizedDefault);
 
+        JLabel logoutLabel = new JLabel("Logout", 17, GUIConstants.white, Font.BOLD);
+        logoutLabel.setIcon(resizedDefaultIcon);
+        logoutLabel.setOpaque(true);
+        logoutLabel.setBackground(GUIConstants.background);
+        logoutLabel.setPreferredSize(new Dimension(200, 50));
+        logoutLabel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+        logoutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        logoutLabel.setHorizontalAlignment(JLabel.LEFT);
+
+        logoutLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Welcome(database);
+                frame.dispose();
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {}
+
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                logoutLabel.setBackground(GUIConstants.hover);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                logoutLabel.setBackground(GUIConstants.background);
+            }
+        });
+
+        JPanel wrapperPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        wrapperPanel.setBackground(GUIConstants.background);
+        wrapperPanel.add(logoutLabel);
+        sideBar.add(wrapperPanel);
+
+        frame.getContentPane().add(sideBar, BorderLayout.WEST);
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(null);
@@ -132,6 +165,26 @@ public class Home {
 
         frame.setVisible(true);
         frame.requestFocus();
+
+
+    }
+
+    /**
+     * Helper method to create a resized ImageIcon.
+     *
+     * @param path  Path to the image file.
+     * @param width Desired width of the image.
+     * @param height Desired height of the image.
+     * @return Resized ImageIcon.
+     */
+    private ImageIcon createResizedIcon(java.net.URL path, int width, int height) {
+        if (path == null) {
+            System.err.println("Error: Image not found.");
+            return null;
+        }
+        ImageIcon originalIcon = new ImageIcon(path);
+        Image resizedImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImage);
     }
 
 }

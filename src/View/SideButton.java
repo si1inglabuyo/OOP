@@ -17,7 +17,7 @@ public class SideButton extends JPanel {
     public SideButton(String text, String pic, User user, Database database, JFrame f) {
         super(new FlowLayout(FlowLayout.LEFT, 10, 10));
         setMaximumSize(new Dimension(182, 50));
-        setBackground(GUIConstants.white);
+        setBackground(GUIConstants.background);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         ImageIcon originalIcon = new ImageIcon("src/imgs/" + pic + ".png");
@@ -27,7 +27,7 @@ public class SideButton extends JPanel {
         JLabel img = new JLabel(resizedIcon);
         add(img);
 
-        add(new View.JLabel(text, 17, GUIConstants.textAreaHint, Font.BOLD));
+        add(new View.JLabel(text, 17, GUIConstants.white, Font.BOLD));
 
         addMouseListener(new MouseListener() {
             @Override
@@ -36,7 +36,7 @@ public class SideButton extends JPanel {
             public void mousePressed(MouseEvent e) {}
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(GUIConstants.white);
+                setBackground(GUIConstants.background);
             }
 
             @Override

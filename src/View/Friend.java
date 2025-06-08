@@ -36,7 +36,7 @@ public class Friend extends JPanel {
         addFriend.setVisible(false);
         right.add(addFriend);
 
-        JLabel remove = new JLabel("Unfollow", 16, GUIConstants.pink, Font.BOLD);
+        JLabel remove = new JLabel("Unfollow", 16, GUIConstants.background, Font.BOLD);
         remove.setCursor(new Cursor(Cursor.HAND_CURSOR));
         remove.setVisible(false);
         remove.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));

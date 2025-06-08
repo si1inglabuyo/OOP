@@ -45,6 +45,10 @@ public class CustomView {
 
         panel.add(header);
         switch (view) {
+            case "Logout":
+                new Welcome(database); // Redirect to Welcome screen
+                frame.dispose(); // Dispose current frame
+                break;
             case "Friends":
                 ArrayList<User> users = new ReadAllUsers(database, user).getList();
                 for (User u : users) {

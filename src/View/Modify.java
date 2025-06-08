@@ -1,9 +1,6 @@
 package View;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -21,9 +18,11 @@ public class Modify {
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(null);
-        panel.setBorder(BorderFactory.createEmptyBorder(72, 84, 149, 84));
-        panel.add(new JLabel("Modify Your Profile", 40, GUIConstants.pink, Font.BOLD),
-                BorderLayout.NORTH);
+        panel.setBorder(BorderFactory.createEmptyBorder(72, 84, 50, 84));
+
+        JLabel title = new JLabel("Modify", 40, GUIConstants.background, Font.BOLD);
+        title.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(title, BorderLayout.NORTH);
 
         JPanel center = new JPanel(new GridLayout(4, 1, 10, 10));
         center.setBackground(null);
@@ -109,6 +108,31 @@ public class Modify {
         changePassword.setCursor(new Cursor(Cursor.HAND_CURSOR));
         changePassword.setHorizontalAlignment(JLabel.CENTER);
         panel.add(changePassword, BorderLayout.SOUTH);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 20));
+
+        buttonPanel.setBackground(null);
+        JButton backBtn = new JButton("Back Home", 45,20);
+        backBtn.setPreferredSize(new Dimension(170, 42));
+        backBtn.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+            @Override
+            public void mousePressed(MouseEvent e) {}
+            @Override
+            public void mouseExited(MouseEvent e) {}
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Home(user, database);
+                frame.dispose();
+            }
+        });
+
+        buttonPanel.add(backBtn);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 
         frame.getContentPane().add(panel);
         frame.setVisible(true);
