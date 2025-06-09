@@ -31,8 +31,11 @@ public class Login {
         center.setBorder(BorderFactory.createEmptyBorder(34, 315, 17, 315));
         JTextField email = new JTextField("Email");
         center.add(email);
-        JTextField password = new JTextField("Password");
+
+        JPasswordField password = new JPasswordField("Password");
         center.add(password);
+
+
         JButton login = new JButton("Login", 45, 20);
         login.addMouseListener(new MouseListener() {
             @Override
@@ -50,7 +53,13 @@ public class Login {
                     return;
                 }
 
-                ReadUser read = new ReadUser(email.getText(), password.getText(), database);
+                String passwordText = new String(password.getPassword());
+                if (passwordText.isEmpty()) {
+                    new Alert("Password cannot be empty", frame);
+                    return;
+                }
+
+                ReadUser read = new ReadUser(email.getText(), passwordText, database);
                 if (read.loggedIn()) {
                     User user = read.getUser();
                     new Home(user, database);

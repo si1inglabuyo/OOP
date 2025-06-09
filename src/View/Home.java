@@ -75,8 +75,76 @@ public class Home {
         logoutLabel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Welcome(database);
-                frame.dispose();
+
+                // Create the custom Alert instance
+                JFrame parentFrame = new JFrame();
+                JDialog alert = new JDialog(parentFrame, "Confirmation", true); // Declare and initialize alert as a JDialog
+                alert.setSize(300, 150);
+                alert.setLayout(new BorderLayout());
+                alert.setLocationRelativeTo(parentFrame);
+
+                // Add the confirmation text
+                JLabel messageLabel = new JLabel("Are you sure you want to logout?",20, GUIConstants.black, Font.BOLD);
+                messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                messageLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+                alert.add(messageLabel, BorderLayout.CENTER);
+
+                // Create a button panel
+                JPanel buttonPanel = new JPanel(new FlowLayout()); // Use FlowLayout for buttons
+                JButton yesButton = new JButton("Yes", 25,15);
+                yesButton.setPreferredSize(new Dimension(70, 25));
+                JButton noButton = new JButton("No",25,15);
+                noButton.setPreferredSize(new Dimension(70, 25));
+
+                // Add hand cursor and disable focus for buttons
+                yesButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                noButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                yesButton.setFocusable(false);
+                noButton.setFocusable(false);
+
+                // Add actions for the buttons using MouseListener
+                yesButton.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        new LandingPage(database); // Logout and transition to Welcome screen
+                        frame.dispose();
+                        alert.dispose(); // Close the alert dialog
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {}
+                    @Override
+                    public void mouseReleased(MouseEvent e) {}
+                    @Override
+                    public void mouseEntered(MouseEvent e) {}
+                    @Override
+                    public void mouseExited(MouseEvent e) {}
+                });
+
+                noButton.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        alert.dispose(); // Close the alert dialog
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {}
+                    @Override
+                    public void mouseReleased(MouseEvent e) {}
+                    @Override
+                    public void mouseEntered(MouseEvent e) {}
+                    @Override
+                    public void mouseExited(MouseEvent e) {}
+                });
+
+                // Add buttons to the button panel
+                buttonPanel.add(yesButton);
+                buttonPanel.add(noButton);
+
+                // Add the button panel to the alert
+                alert.add(buttonPanel, BorderLayout.SOUTH);
+                // Set the alert visible
+                alert.setVisible(true);
             }
             @Override
             public void mousePressed(MouseEvent e) {}

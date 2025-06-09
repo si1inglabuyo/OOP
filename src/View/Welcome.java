@@ -38,9 +38,9 @@ public class Welcome {
         center.add(lastName);
         JTextField email = new JTextField("Email");
         center.add(email);
-        JTextField password = new JTextField("Password");
+        JPasswordField password = new JPasswordField("Password");
         center.add(password);
-        JTextField confirmPassword = new JTextField("Confirm Password");
+        JPasswordField confirmPassword = new JPasswordField("Confirm Password");
         center.add(confirmPassword);
         JButton createAcc = new JButton("Create Account", 45, 20);
 
@@ -72,20 +72,21 @@ public class Welcome {
                     new Alert("Email must end with @iskolarngbayan.pup.edu.ph", frame);
                     return;
                 }
-
-                if (password.isEmpty()) {
+                String passwordText = new String(password.getPassword());
+                if (passwordText.isEmpty()) {
                     new Alert("Password cannot be empty", frame);
                     return;
                 }
-                if (password.getText().length()<6) {
+                if (passwordText.length()<6) {
                     new Alert("Password must contains at least 6 characters", frame);
                     return;
                 }
-                if (confirmPassword.isEmpty()) {
+                String confirmText = new String(confirmPassword.getPassword());
+                if (confirmText.isEmpty()) {
                     new Alert("Please confirm password", frame);
                     return;
                 }
-                if (!password.getText().equals(confirmPassword.getText())) {
+                if (!passwordText.equals(confirmText)) {
                     new Alert("Password doesn't match", frame);
                     return;
                 }
@@ -93,7 +94,7 @@ public class Welcome {
                 u.setFirstName(firstName.getText());
                 u.setLastName(lastName.getText());
                 u.setEmail(email.getText());
-                u.setPassword(password.getText());
+                u.setPassword(passwordText);
                 CreateUser create = new CreateUser(u, database);
                 if (!create.isEmailUsed()) {
                     new Alert("Account created successfully!", frame);
