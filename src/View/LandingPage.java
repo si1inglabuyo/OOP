@@ -1,7 +1,6 @@
 package View;
 
 import Model.Database;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -40,6 +39,7 @@ public class LandingPage {
             public void mouseEntered(MouseEvent e) {}
             @Override
             public void mouseClicked(MouseEvent e) {
+
                 new Welcome(database);
                 frame.dispose();
 
@@ -48,6 +48,8 @@ public class LandingPage {
 
         backgroundPanel.add(imageButton);
 
+
         frame.setVisible(true);
+        frame.requestFocus();
     }
 }

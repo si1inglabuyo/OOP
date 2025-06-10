@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import Controller.CreatePost;
 import Controller.GenerateTimeline;
+import Model.BulgarWords;
 import Model.Database;
 import Model.User;
 
@@ -79,22 +80,23 @@ public class Home {
                 // Create the custom Alert instance
                 JFrame parentFrame = new JFrame();
                 JDialog alert = new JDialog(parentFrame, "Confirmation", true); // Declare and initialize alert as a JDialog
-                alert.setSize(300, 150);
+                alert.setSize(430, 170);
                 alert.setLayout(new BorderLayout());
                 alert.setLocationRelativeTo(parentFrame);
 
                 // Add the confirmation text
                 JLabel messageLabel = new JLabel("Are you sure you want to logout?",20, GUIConstants.black, Font.BOLD);
                 messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                messageLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+                messageLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
                 alert.add(messageLabel, BorderLayout.CENTER);
 
                 // Create a button panel
                 JPanel buttonPanel = new JPanel(new FlowLayout()); // Use FlowLayout for buttons
-                JButton yesButton = new JButton("Yes", 25,15);
-                yesButton.setPreferredSize(new Dimension(70, 25));
-                JButton noButton = new JButton("No",25,15);
-                noButton.setPreferredSize(new Dimension(70, 25));
+                buttonPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 20, 15));
+                JButton yesButton = new JButton("Yes", 25,20);
+                yesButton.setPreferredSize(new Dimension(70, 30));
+                JButton noButton = new JButton("No",25,20);
+                noButton.setPreferredSize(new Dimension(70, 30));
 
                 // Add hand cursor and disable focus for buttons
                 yesButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -207,6 +209,11 @@ public class Home {
             public void mouseClicked(MouseEvent e) {
                 if (postIn.isEmpty()) {
                     new Alert("Cannot publish empty post", frame);
+                    return;
+                }
+                String postContent = postIn.getText();
+                if (BulgarWords.containsBulgarWords(postContent)) {
+                    new Alert("<html>Your post contains inappropriate words.<br>Please revise it.</html>", frame);
                     return;
                 }
                 Model.Post post = new Model.Post(postIn.getText(), user);
