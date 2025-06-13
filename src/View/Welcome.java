@@ -7,8 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import Controller.CreateUser;
 import Model.Database;
@@ -98,10 +97,25 @@ public class Welcome {
                 CreateUser create = new CreateUser(u, database);
                 if (!create.isEmailUsed()) {
                     new Alert("Account created successfully!", frame);
-                    create.create();
-                    u = create.getUser();
-                    new Home(u, database);
-                    frame.dispose();
+
+                    LoadingScreen loadingScreen = new LoadingScreen();
+
+                    new SwingWorker<Void, Void>() {
+                        @Override
+                        protected Void doInBackground() {
+                            create.create();
+                            u.setID(create.getUser().getID());
+                            new Home(u, database);
+                            return null;
+                        }
+
+                        @Override
+                        protected void done() {
+                            loadingScreen.close();
+                            frame.dispose();
+                        }
+                    }.execute();
+
                 } else {
                     new Alert("This email has been used before", frame);
                 }
@@ -138,5 +152,4 @@ public class Welcome {
         frame.setVisible(true);
         frame.requestFocus();
     }
-
 }

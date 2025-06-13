@@ -1,5 +1,6 @@
 package View;
 
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -11,5 +12,10 @@ public class JLabel extends javax.swing.JLabel {
         setText(text);
         setForeground(color);
     }
+
+    public JLabel(Icon icon, int horizontalAlignment) {
+        super(icon, horizontalAlignment);
+    }
+
 
 }

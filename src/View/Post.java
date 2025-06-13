@@ -140,14 +140,6 @@ public class Post extends JPanel {
         likesCounter.setText(likesCount + (likesCount < 2 ? " Like" : " Likes"));
     }
 
-    /**
-     * Helper method to create a resized ImageIcon.
-     *
-     * @param path  Path to the image file.
-     * @param width Desired width of the image.
-     * @param height Desired height of the image.
-     * @return Resized ImageIcon.
-     */
     private ImageIcon createResizedIcon(java.net.URL path, int width, int height) {
         if (path == null) {
             System.err.println("Error: Image not found.");

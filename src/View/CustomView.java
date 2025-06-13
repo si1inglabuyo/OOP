@@ -1,15 +1,11 @@
 package View;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import Controller.ReadAllUsers;
 import Controller.ReadUserComments;
@@ -23,7 +19,6 @@ public class CustomView {
 
     public CustomView(String view, User user, Database database) {
         JFrame frame = new JFrame();
-
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(null);
@@ -44,60 +39,95 @@ public class CustomView {
         header.add(north, BorderLayout.NORTH);
 
         panel.add(header);
-        switch (view) {
-            case "Logout":
-                new Welcome(database); // Redirect to Welcome screen
-                frame.dispose(); // Dispose current frame
-                break;
-            case "Friends":
-                ArrayList<User> users = new ReadAllUsers(database, user).getList();
-                for (User u : users) {
-                    panel.add(Box.createVerticalStrut(7));
-                    panel.add(new Friend(user, database, u));
+
+        // Show Loading Screen and Perform Content Loading
+        LoadingScreen loadingScreen = new LoadingScreen();
+
+        // Use SwingWorker to load data in the background
+        new SwingWorker<ArrayList<?>, Void>() {
+            @Override
+            protected ArrayList<?> doInBackground() {
+                switch (view) {
+                    case "Friends":
+                        return new ReadAllUsers(database, user).getList();
+                    case "Posts":
+                        return new ReadUserPosts(user, database).getPosts();
+                    case "Comments":
+                        return new ReadUserComments(user, database, frame)
+                                .getPostsWithComments();
+                    case "Likes":
+                        return new ReadUserLikes(user, database).getPosts();
+                    default:
+                        return null;
                 }
-                break;
-            case "Posts":
-                ArrayList<Post> posts = new ReadUserPosts(user, database).getPosts();
-                for (Post p : posts) {
-                    panel.add(Box.createVerticalStrut(7));
-                    panel.add(new View.Post(user, p, database, frame));
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    loadingScreen.close(); // Close the loading screen
+
+                    // Handle the result and dynamically render content
+                    Object result = get();
+                    if (result instanceof ArrayList<?>) {
+                        ArrayList<?> list = (ArrayList<?>) result;
+                        if (view.equals("Friends")) {
+                            for (Object o : list) {
+                                if (o instanceof User) {
+                                    panel.add(Box.createVerticalStrut(7));
+                                    panel.add(new Friend(user, database, (User) o));
+                                }
+                            }
+                        } else if (view.equals("Posts") || view.equals("Likes")) {
+                            for (Object o : list) {
+                                if (o instanceof Post) {
+                                    panel.add(Box.createVerticalStrut(7));
+                                    panel.add(new View.Post(user, (Post) o, database, frame));
+                                }
+                            }
+                        } else if (view.equals("Comments")) {
+                            for (Object o : list) {
+                                if (o instanceof JPanel) {
+                                    panel.add(Box.createVerticalStrut(7));
+                                    panel.add((JPanel) o);
+                                }
+                            }
+                        }
+                        panel.revalidate();
+                        panel.repaint();
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    new Alert("Error loading content. Please try again.", frame);
                 }
-                break;
-            case "Comments":
-                for (JPanel p : new ReadUserComments(user, database, frame)
-                        .getPostsWithComments()) {
-                    panel.add(Box.createVerticalStrut(7));
-                    panel.add(p);
-                }
-                break;
-            case "Likes":
-                ArrayList<Post> likes = new ReadUserLikes(user, database).getPosts();
-                for (Post p : likes) {
-                    panel.add(Box.createVerticalStrut(7));
-                    panel.add(new View.Post(user, p, database, frame));
-                }
-                break;
-        }
+            }
+        }.execute();
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 20));
 
         buttonPanel.setBackground(null);
-        JButton backBtn = new JButton("Back Home", 45,20);
+        JButton backBtn = new JButton("Back Home", 45, 20);
         backBtn.setPreferredSize(new Dimension(170, 42));
-        backBtn.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseExited(MouseEvent e) {}
-            @Override
-            public void mouseEntered(MouseEvent e) {}
+        backBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        backBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Home(user, database);
-                frame.dispose();
+                LoadingScreen loadingscreen = new LoadingScreen();
+                new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() {
+                        // Show the Home screen
+                        new Home(user, database);
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        loadingscreen.close();
+                        frame.dispose(); // Close the current frame
+                    }
+                }.execute();
             }
         });
 
@@ -108,5 +138,4 @@ public class CustomView {
         frame.setVisible(true);
         frame.requestFocus();
     }
-
 }

@@ -40,12 +40,16 @@ public class Login {
         login.addMouseListener(new MouseListener() {
             @Override
             public void mouseReleased(MouseEvent e) {}
+
             @Override
             public void mousePressed(MouseEvent e) {}
+
             @Override
             public void mouseExited(MouseEvent e) {}
+
             @Override
             public void mouseEntered(MouseEvent e) {}
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (email.isEmpty()) {
@@ -62,13 +66,28 @@ public class Login {
                 ReadUser read = new ReadUser(email.getText(), passwordText, database);
                 if (read.loggedIn()) {
                     User user = read.getUser();
-                    new Home(user, database);
-                    frame.dispose();
+
+                    LoadingScreen loadingScreen = new LoadingScreen();
+
+                    new SwingWorker<Void, Void>() {
+                        @Override
+                        protected Void doInBackground() {
+                            new Home(user, database);
+                            return null;
+                        }
+
+                        @Override
+                        protected void done() {
+                            loadingScreen.close();
+                            frame.dispose();
+                        }
+                    }.execute();
                 } else {
                     new Alert("Incorrect email or password", frame);
                 }
             }
         });
+
         center.add(login);
 
         panel.add(center, BorderLayout.CENTER);
@@ -90,6 +109,7 @@ public class Login {
                 frame.dispose();
             }
         });
+
         createAcc.setCursor(new Cursor(Cursor.HAND_CURSOR));
         createAcc.setHorizontalAlignment(JLabel.CENTER);
         panel.add(createAcc, BorderLayout.SOUTH);
@@ -98,5 +118,4 @@ public class Login {
         frame.setVisible(true);
         frame.requestFocus();
     }
-
 }

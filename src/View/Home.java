@@ -241,7 +241,6 @@ public class Home {
         frame.setVisible(true);
         frame.requestFocus();
 
-
     }
 
     /**
